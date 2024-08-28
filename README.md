@@ -1,2 +1,2 @@
 # BWINF-43
-Bundeswetbewerb Informatik 43
+Lösungen vom TLS-Team zum Bundeswettbewerb Informatik 43 (BWINF 43).
