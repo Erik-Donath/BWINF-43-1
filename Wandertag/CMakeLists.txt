@@ -8,5 +8,4 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Füge die ausführbare Datei hinzu
-add_executable(wandertag main.cpp)
-
+add_executable(wandertag src/main.cpp src/parser.cpp src/parser.h src/algorithm.cpp src/algorithm.h)
