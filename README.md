@@ -9,13 +9,12 @@ Lösungen vom TLS-Team zum Bundeswettbewerb Informatik 43 (BWINF 43).
 ![Aufgaben 2](Aufgaben431-2.jpg)
 
 # Fortschritt
-| Aufgaben         | Theorie | Implementation | Dokumentation |
-|------------------|---------|----------------|---------------|
-| Junior Aufgabe 1 | [ ]     | [ ]            | [ ]           |
-| Junior Aufgabe 2 | [ ]     | [ ]            | [ ]           |
-| Aufgabe 1        | [ ]     | [ ]            | [ ]           |
-| Aufgabe 2        | [ ]     | [ ]            | [ ]           |
-| Aufgabe 3        | Daniel Hohmann |  Daniel Hohmann, Erik Donath | [ ]           |
-| Aufgabe 4        | [ ]     | [ ]            | [ ]           |
-| Aufgabe 5        | [ ]     | [ ]            | [ ]           |
-
+| Aufgaben         | Theorie          | Implementation              | Dokumentation  |
+|------------------|------------------|-----------------------------|----------------|
+| Junior Aufgabe 1 | Jan Niklas Seipp | Jan Niklas Seipp            | /              |
+| Junior Aufgabe 2 | Louis Weigel     | Louis Weigel                | /              |
+| Aufgabe 1        | /                | /                           | /              |
+| Aufgabe 2        | David Noskov     | David Noskov                | /              |
+| Aufgabe 3        | Daniel Hohmann   | Daniel Hohmann, Erik Donath | Daniel Hohmann |
+| Aufgabe 4        | Luis Herr        | Luis Herr                   | /              |
+| Aufgabe 5        | /                | /                           | /              |
