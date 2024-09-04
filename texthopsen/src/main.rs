@@ -1,13 +1,28 @@
+use std::{env::args, fs::read_to_string, process::exit};
+
 // Change this if you want to change the order of character weighting
 // You also can just add new characters to have them counted as well
 const JUMPING_DISTANCES: &str = "abcdefghijklmnopqrstuvwxyzäöüß";
 
 fn main() {
-    // Vorläufig, muss noch überprüft werden
-    let text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+    let path = match args().nth(1) {
+        Some(path) => path,
+        None => {
+            eprintln!("You have to supply one argument with the path of the file of text.\n\nExample:\n./texthopsen ./relative/path/to/file");
+            exit(1);
+        }
+    };
 
-    let bela_result = jump(text, 0);
-    let amira_result = jump(text, 1);
+    let text = match read_to_string(path) {
+        Ok(text) => text,
+        Err(_) => {
+            eprintln!("Couldn't load file.\nAre you sure that the path is correct?");
+            exit(1)
+        }
+    };
+
+    let bela_result = jump(&text, 0);
+    let amira_result = jump(&text, 1);
 
     if bela_result < amira_result {
         println!("Bela won!");
