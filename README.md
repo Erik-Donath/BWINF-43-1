@@ -4,10 +4,6 @@ Lösungen vom TLS-Team zum Bundeswettbewerb Informatik 43 (BWINF 43).
 # Projekte
 [Aufgabe 3: Wandertag](./Wandertag/)
 
-# Aufgaben
-![Aufgaben 1](Aufgaben431-1.jpg)
-![Aufgaben 2](Aufgaben431-2.jpg)
-
 # Fortschritt
 | Aufgaben         | Theorie          | Implementation              | Dokumentation  |
 |------------------|------------------|-----------------------------|----------------|
@@ -18,3 +14,7 @@ Lösungen vom TLS-Team zum Bundeswettbewerb Informatik 43 (BWINF 43).
 | Aufgabe 3        | Daniel Hohmann   | Daniel Hohmann, Erik Donath | Daniel Hohmann |
 | Aufgabe 4        | Luis Herr        | Luis Herr                   | /              |
 | Aufgabe 5        | /                | /                           | /              |
+
+# Aufgaben
+![Aufgaben 1](Aufgaben431-1.jpg)
+![Aufgaben 2](Aufgaben431-2.jpg)
