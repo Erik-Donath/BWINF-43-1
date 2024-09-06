@@ -1,8 +1,13 @@
 ﻿using Schwierigkeiten.src;
 
 string basePath = AppDomain.CurrentDomain.BaseDirectory;
-string path = Path.Combine(basePath, @"../../../res/schwierigkeiten0.txt");
-string[] lines = Parser.Parse(path);
+string path = Path.Combine(basePath, @"../../../res/");
+string[] cases = Directory.GetFiles(path, "*.txt");
 
-Algorithm Aufgabe1 = new(lines);
-Aufgabe1.createGraph();
+Algorithm schwierigkeiten0 = new(Parser.Parse(cases[0]));
+schwierigkeiten0.Solve();
+
+Console.WriteLine();
+
+Algorithm schwierigkeiten1 = new(Parser.Parse(cases[1]));
+schwierigkeiten1.Solve();

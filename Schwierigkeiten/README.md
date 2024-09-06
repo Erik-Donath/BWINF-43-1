@@ -4,8 +4,9 @@
 
 - [x] Parser implementiert
 - [x] Graphen erstellt
-- [ ] Konflikte aufloesen
-- [ ] Topologisch Sortieren
+- [x] Konflikte aufloesen
+- [x] Topologisch Sortieren
+- [ ] Reihenfolge bestimmen
 - [ ] Programm vollstaendig
 
 ## Dokumentation

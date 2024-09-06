@@ -18,7 +18,6 @@ namespace Schwierigkeiten.src
         private readonly List<string> klausuren;
         // Aufgaben, für die eine gute Anordnung gefunden werden soll
         private readonly string aufgaben;
-
         
         
         public Algorithm(string[] lines)
@@ -33,12 +32,18 @@ namespace Schwierigkeiten.src
                 klausuren.Add(lines[i]);
             }
             aufgaben = lines[lines.Length-1];
-            //Console.WriteLine($"{n} {m} {k}");
-            //klausuren.ForEach(x => Console.WriteLine(x));
-            //Console.WriteLine(aufgaben);
         }
 
-        public void createGraph()
+        public void Solve()
+        {
+            Graph graph = CreateGraph();
+            if (graph.ContainsCycle())
+                graph.RemoveCycle();
+            List<char> liste = graph.TopologicalSort();
+            liste.ForEach(x => Console.Write($"{x} < "));
+        }
+
+        private Graph CreateGraph()
         {
             string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             Graph graph = new();
@@ -53,7 +58,7 @@ namespace Schwierigkeiten.src
                     graph.AddEdge(klausur[i], klausur[i+1]);
                 }
             }
-            graph.Anzeigen();
+            return graph;
         }
     }
 }
