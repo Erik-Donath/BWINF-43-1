@@ -1,0 +1,1 @@
+- [colored](https://crates.io/crates/colored): Used for terminal coloring, as this is not easily possible in pure Rust
