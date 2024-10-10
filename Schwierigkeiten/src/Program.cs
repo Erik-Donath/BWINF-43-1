@@ -4,10 +4,15 @@ string basePath = AppDomain.CurrentDomain.BaseDirectory;
 string path = Path.Combine(basePath, @"../../../res/");
 string[] cases = Directory.GetFiles(path, "*.txt");
 
-Algorithm schwierigkeiten0 = new(Parser.Parse(cases[0]));
-schwierigkeiten0.Solve();
+new Algorithm(Parser.Parse(cases[0])).Solve();
 
-Console.WriteLine();
+new Algorithm(Parser.Parse(cases[1])).Solve();
 
-Algorithm schwierigkeiten1 = new(Parser.Parse(cases[1]));
-schwierigkeiten1.Solve();
+new Algorithm(Parser.Parse(cases[2])).Solve();
+
+new Algorithm(Parser.Parse(cases[3])).Solve();
+
+new Algorithm(Parser.Parse(cases[4])).Solve();
+
+new Algorithm(Parser.Parse(cases[5])).Solve();
+

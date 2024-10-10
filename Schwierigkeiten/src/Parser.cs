@@ -15,17 +15,12 @@ namespace Schwierigkeiten.src
             try
             {
                 lines = File.ReadAllLines(path);
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    lines[i] = lines[i].Replace(" ", "");
-                    lines[i] = lines[i].Replace("<", "");
-                }
                 return lines;
             }
             catch (Exception e)
             {
                 Console.WriteLine("Exception: " + e.Message);
-                return new string[0];
+                return [];
             }
         }
     }

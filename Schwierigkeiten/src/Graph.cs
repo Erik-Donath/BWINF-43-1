@@ -15,9 +15,6 @@ namespace Schwierigkeiten.src
             adjList = [];
         }
 
-        //List Linear
-        //Hashset consitent
-
         public void AddNode(char node)
         {
             if (!adjList.ContainsKey(node))
@@ -37,66 +34,6 @@ namespace Schwierigkeiten.src
             adjList[from].Remove(to);
         }
 
-        public void RemoveCycle()
-        {
-            while (ContainsCycle())
-            {
-                foreach (var node in adjList.Keys.ToList())
-                {
-                    foreach (var neighbor in adjList[node].ToList())
-                    {
-                        // Temporär die Kante entfernen
-                        adjList[node].Remove(neighbor);
-
-                        // Überprüfen, ob es noch einen Zyklus gibt
-                        if (!ContainsCycle() && adjList[neighbor].Count != 0)
-                        {
-                            return; // Zyklus entfernt
-                        }
-
-                        // Kante wieder hinzufügen, wenn immer noch Zyklen vorhanden sind
-                        adjList[node].Add(neighbor);
-                    }
-                }
-            }
-        }
-
-        public bool ContainsCycle()
-        {
-            HashSet<char> visited = [];
-            HashSet<char> stack = [];
-            foreach (var node in adjList.Keys)
-            {
-                if (FindCycle(node, visited, stack))
-                    return true;
-            }
-            return false;
-        }
-
-        private bool FindCycle(char node, HashSet<char> visited, HashSet<char> stack)
-        {
-            if (stack.Contains(node))
-                return true; // Zyklus gefunden
-
-            if (visited.Contains(node))
-                return false; // Kein Zyklus hier
-
-            visited.Add(node);
-            stack.Add(node);
-
-            if (adjList.TryGetValue(node, out List<char>? value))
-            {
-                foreach (char neighbor in value)
-                {
-                    if (FindCycle(neighbor, visited, stack)) 
-                        return true;
-                }
-            }
-
-            stack.Remove(node);
-            return false;
-        }
-
         public List<char> TopologicalSort()
         {
             HashSet<char> visited = [];
@@ -109,43 +46,101 @@ namespace Schwierigkeiten.src
                     DFS(node, visited, resultStack);
                 }
             }
-
             return resultStack.ToList(); // Rückgabe der topologisch sortierten Liste
         }
 
+        public void RemoveCycle()
+        {
+            // Suche nach einem Zyklus und entferne eine Kante, die keine Brücke ist
+            foreach (var node in adjList.Keys)
+            {
+                var visited = new HashSet<char>();
+                var stack = new Stack<char>();
+                var resultStack = new Stack<char>();
+
+                if (FindCycle(node, '\0', visited, stack))
+                {
+                    var cycleNodes = stack.ToList();
+
+                    for (int i = 0; i < cycleNodes.Count - 1; i++)
+                    {
+                        char u = cycleNodes[i];
+                        char v = cycleNodes[i + 1];
+
+                        // Überprüfen, ob (u, v) eine Brücke ist
+                        if (!IsBridge(u, v, [], resultStack))
+                        {
+                            adjList[u].Remove(v);
+                            adjList[v].Remove(u);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Hilfsfunktion zur Zyklenerkennung mit DFS
+        private bool FindCycle(char current, char parent, HashSet<char> visited, Stack<char> stack)
+        {
+            visited.Add(current);
+            stack.Push(current);
+
+            foreach (var neighbor in adjList[current])
+            {
+                if (neighbor == parent)
+                    continue;
+
+                if (visited.Contains(neighbor))
+                {
+                    stack.Push(neighbor);
+                    return true;
+                }
+
+                if (FindCycle(neighbor, current, visited, stack))
+                {
+                    return true;
+                }
+            }
+
+            stack.Pop();
+            return false;
+        }
+
+        // Funktion zur Überprüfung, ob eine Kante eine Brücke ist
+        private bool IsBridge(char u, char v, HashSet<char> visited, Stack<char> resultStack)
+        {
+            // Entferne die Kante temporär
+            adjList[u].Remove(v);
+            adjList[v].Remove(u);
+
+            // Überprüfen, ob u und v noch im selben Teil des Graphen sind
+            DFS(u, visited, resultStack);
+
+            // Füge die Kante wieder hinzu
+            adjList[u].Add(v);
+            adjList[v].Add(u);
+
+            // Überprüfen, ob beide Knoten noch in derselben Komponente sind
+            return !visited.Contains(v);
+        }
+
+        // DFS-Funktion zur Überprüfung der Erreichbarkeit oder für topologischen Sort
         private void DFS(char node, HashSet<char> visited, Stack<char> resultStack)
         {
             visited.Add(node);
 
-            if (adjList.TryGetValue(node, out List<char>? value))
+            foreach (var neighbor in adjList[node])
             {
-                foreach (var neighbor in value)
+                if (!visited.Contains(neighbor))
                 {
-                    if (!visited.Contains(neighbor))
-                    {
-                        DFS(neighbor, visited, resultStack);
-                    }
+                    DFS(neighbor, visited, resultStack);
                 }
             }
 
+            // Fügt den Knoten dem resultStack hinzu, um später den topologischen Sort zu haben
             resultStack.Push(node);
         }
 
-        // debugging
-        public void Anzeigen()
-        {
-            foreach (var knoten in adjList)
-            {
-                Console.Write(knoten.Key + " < ");
-
-                foreach (var nachbar in knoten.Value)
-                {
-                    Console.Write(nachbar + " ");
-                }
-
-                Console.WriteLine();
-            }
-        }
     }
 }
 

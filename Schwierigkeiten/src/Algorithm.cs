@@ -8,12 +8,12 @@ namespace Schwierigkeiten.src
 {
     internal class Algorithm
     {
-        // Anzahl der Klausuren
-        private readonly int n;
-        // Gesamtanzahl an Aufgaben
-        private readonly int m;
-        // Anzahl an Aufgaben für welche eine gute Anordnung gefunden werden soll
-        private readonly int k;
+        /*
+         * 0 = Anzahl der Klausuren
+         * 1 = Gesamtanzahl an Aufgaben
+         * 2 = Anzahl an Aufgaben für welche eine gute Anordnung gefunden werden soll
+         */
+        private readonly int[] info;
         // Liste aller Klausuren
         private readonly List<string> klausuren;
         // Aufgaben, für die eine gute Anordnung gefunden werden soll
@@ -22,34 +22,56 @@ namespace Schwierigkeiten.src
         
         public Algorithm(string[] lines)
         {
-            string info = lines[0];
-            n = (int)Char.GetNumericValue(info[0]);
-            m = (int)Char.GetNumericValue(info[1]);
-            k = (int)Char.GetNumericValue(info[2]);
+            string infoLine = lines[0];
+            info = infoLine
+                .Split(new[] { ' ' })
+                .Select(int.Parse)
+                .ToArray();
             klausuren = [];
-            for (int i = 1; i <= n; i++) 
+            for (int i = 1; i <= info[0]; i++) 
             {
-                klausuren.Add(lines[i]);
+                klausuren.Add(removeClutter(lines[i]));
             }
-            aufgaben = lines[lines.Length-1];
+            aufgaben = removeClutter(lines[lines.Length - 1]);
+        }
+
+        private string removeClutter(string line)
+        {
+            string newLine = line;
+            newLine = newLine.Replace(" ", "");
+            newLine = newLine.Replace("<", "");
+            return newLine;
         }
 
         public void Solve()
         {
             Graph graph = CreateGraph();
-            if (graph.ContainsCycle())
-                graph.RemoveCycle();
+            graph.RemoveCycle();
             List<char> liste = graph.TopologicalSort();
-            liste.ForEach(x => Console.Write($"{x} < "));
+            //liste.ForEach(x => Console.Write($"{x} <"));
+            string ergebnis = "";
+            for (int i = 0; i < liste.Count; i++) 
+            {
+                for (int j = 0; j < info[2]; j++)
+                {
+                    if (aufgaben[j] == liste[i])
+                    {
+                        ergebnis += liste[i];
+                        break;
+                    }
+                }
+            }
+            Console.WriteLine(ergebnis + "\n");
         }
 
         private Graph CreateGraph()
         {
             string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             Graph graph = new();
-            for (int i = 0; i < m; i++)
+            for (int i = 0; i < info[1]; i++)
             {
                 graph.AddNode(alphabet[i]);
+                //Console.WriteLine(alphabet[i]+ " :node created");
             }
             foreach (string klausur in klausuren)
             {

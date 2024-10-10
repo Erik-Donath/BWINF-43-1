@@ -6,8 +6,8 @@
 - [x] Graphen erstellt
 - [x] Konflikte aufloesen
 - [x] Topologisch Sortieren
-- [ ] Reihenfolge bestimmen
-- [ ] Programm vollstaendig
+- [x] Reihenfolge bestimmen
+- [x] Programm vollstaendig
 
 ## Dokumentation
 
