@@ -2,8 +2,8 @@
 Lösungen vom TLS-Team zum Bundeswettbewerb Informatik 43 (BWINF 43).
 
 # Projekte
-[Junior Aufgabe 1: Quadratisch, praktisch, grün - java](./Junioraufgabe 1 - Java/)<br>
-[Junior Aufgabe 1: Quadratisch, praktisch, grün - python](./Junioraufgabe 1/)<br>
+[Junior Aufgabe 1: Quadratisch, praktisch, grün - java](./quadratisch_praktisch_gruen_java/)<br>
+[Junior Aufgabe 1: Quadratisch, praktisch, grün - python](./quadratisch_praktisch_gruen/)<br>
 [Junior Aufgabe 2: Texthopsen](./texthopsen/)<br>
 [Aufgabe 2: Schwierigkeiten](./Schwierigkeiten/)<br>
 [Aufgabe 3: Wandertag](./Wandertag/)<br>
