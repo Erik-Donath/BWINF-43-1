@@ -3,15 +3,15 @@
 use colored::{Color, Colorize};
 use std::{env::args, fs::read_to_string, process::exit};
 
-// Change this if you want to change the order of character weighting
-// You also can just add new characters to have them counted as well
+// Change this if you want to change the character weighting
+// You can also add new characters to have them counted as well
 const JUMPING_DISTANCES: &str = "abcdefghijklmnopqrstuvwxyzäöüß";
 
 fn main() {
     let path = match args().nth(1) {
         Some(path) => path,
         None => {
-            eprintln!("You have to supply one argument with the path of the file of text.\n\nExample:\n./texthopsen ./relative/path/to/file");
+            eprintln!("You have to supply one argument with the path of the file of text.\n\nExample:\n./texthopsen ./relative/path/to/file\ncargo run -- ./relative/path/to/file");
             exit(1);
         }
     };
@@ -32,10 +32,10 @@ fn main() {
         create_colored_text(text, bela_result.1, amira_result.1)
     );
 
-    if bela_result.0 < amira_result.0 {
-        println!("{} won!", "Bela".red());
-    } else {
+    if amira_result.0 < bela_result.0 {
         println!("{} won!", "Amira".blue());
+    } else {
+        println!("{} won!", "Bela".red());
     }
 }
 
@@ -43,9 +43,9 @@ fn jump(text: &str, start_index: usize) -> (usize, Vec<usize>) {
     let text = text.to_lowercase();
 
     let mut jumps = 0;
-    let mut letter_indices = Vec::new();
+    let mut jump_letter_indices = Vec::new();
 
-    let mut jump_index = start_index;
+    let mut next_jump_index = start_index;
     let mut current_index = start_index;
 
     for (letter_index, char) in text.chars().skip(start_index).enumerate() {
@@ -55,17 +55,17 @@ fn jump(text: &str, start_index: usize) -> (usize, Vec<usize>) {
             continue;
         }
 
-        if current_index == jump_index {
-            letter_indices.push(letter_index + start_index);
+        if current_index == next_jump_index {
+            jump_letter_indices.push(letter_index + start_index);
 
-            jump_index += new_jump_distance.unwrap() + 1;
+            next_jump_index += new_jump_distance.unwrap() + 1;
             jumps += 1;
         }
 
         current_index += 1;
     }
 
-    (jumps, letter_indices)
+    (jumps, jump_letter_indices)
 }
 
 fn create_colored_text(
