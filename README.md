@@ -2,18 +2,22 @@
 Lösungen vom TLS-Team zum Bundeswettbewerb Informatik 43 (BWINF 43).
 
 # Projekte
-[Aufgabe 3: Wandertag](./Wandertag/)
+[Junior Aufgabe 1: Quadratisch, praktisch, grün - java](./Junioraufgabe 1 - Java/)<br>
+[Junior Aufgabe 1: Quadratisch, praktisch, grün - python](./Junioraufgabe 1/)<br>
+[Junior Aufgabe 2: Texthopsen](./texthopsen/)<br>
+[Aufgabe 2: Schwierigkeiten](./Schwierigkeiten/)<br>
+[Aufgabe 3: Wandertag](./Wandertag/)<br>
 
 # Fortschritt
-| Aufgaben         | Theorie          | Implementation              | Dokumentation  |
-|------------------|------------------|-----------------------------|----------------|
-| Junior Aufgabe 1 | Jan Niklas Seipp | Jan Niklas Seipp            | /              |
-| Junior Aufgabe 2 | Louis Weigel     | Louis Weigel                | /              |
-| Aufgabe 1        | /                | /                           | /              |
-| Aufgabe 2        | David Noskov     | David Noskov                | /              |
-| Aufgabe 3        | Daniel Hohmann   | Daniel Hohmann, Erik Donath | Daniel Hohmann |
-| Aufgabe 4        | Luis Herr        | Luis Herr                   | /              |
-| Aufgabe 5        | /                | /                           | /              |
+| Aufgaben         | Theorie                         | Implementation                                | Dokumentation  |
+|------------------|---------------------------------|-----------------------------------------------|----------------|
+| Junior Aufgabe 1 | Jan Niklas Seipp, Daniel Hohman | Jan Niklas Seipp, Daniel Hohmann, Erik Donath | Erik Donath    |
+| Junior Aufgabe 2 | Louis Weigel                    | Louis Weigel                                  | Louis Weigel   |
+| Aufgabe 1        | /                               | /                                             | /              |
+| Aufgabe 2        | David Noskov                    | David Noskov                                  | /              |
+| Aufgabe 3        | Daniel Hohmann                  | Daniel Hohmann, Erik Donath                   | Daniel Hohmann |
+| Aufgabe 4        | Luis Herr                       | Luis Herr                                     | /              |
+| Aufgabe 5        | /                               | /                                             | /              |
 
 # Aufgaben
 ![Aufgaben 1](Aufgaben431-1.jpg)
