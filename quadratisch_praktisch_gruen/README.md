@@ -85,18 +85,15 @@ $\text{Mathematischer Ausdruck: }s(w,h)=\frac{min(w, h)}{max(w, h)}$
 
 **Für find_best_division() gilt:**
 
-$\text{Zeitkomplexität: } O(n^{2})$
-$\text{Mathematischer Ausdruck: }$
-
-$\text{1. Menge der möglichen Plotanzahlen:}$
-$P=\{p \in \mathbb{N} \space| \space min\_plots \leq p\leq max\_plots\}$
-
-$\text{2. Für jedes } p \in P \text{, ist die Menge der möglichen Reihenzahlen:}$
-$R_{p}=\{r \in \mathbb{N} \space| \space 1 \leq p \text{ und }p \space mod \space r = 0 \}$
-$\text{3. Berechne für jede Kombination } (p,r) \text{ die Spantenzahl } c=\frac{p}{r} \text{ und die Plotdimensionen: }$
+$\text{Zeitkomplexität: } O(n^{2})$<br>
+$\text{Mathematischer Ausdruck: }$<br>
+$\text{1. Menge der möglichen Plotanzahlen:}$<br>
+$P=\{p \in \mathbb{N} \space| \space min\_plots \leq p\leq max\_plots\}$<br>
+$\text{2. Für jedes } p \in P \text{, ist die Menge der möglichen Reihenzahlen:}$<br>
+$R_{p}=\{r \in \mathbb{N} \space| \space 1 \leq p \text{ und }p \space mod \space r = 0 \}$<br>
+$\text{3. Berechne für jede Kombination } (p,r) \text{ die Spantenzahl } c=\frac{p}{r} \text{ und die Plotdimensionen: }$<br>
 $w=\frac{total\_width}{c}, h=\frac{total\_height}{r}$
-
-$\text{4. Berechne die Quadratförmigkeit für jede Kompination: }$
-$s(w,h)=\frac{min(w, h)}{max(w, h)}$
-$\text{5. Finde die optimale Aufteilung: }$
-$best\_division=\max{s(p,r)}\space |\space p\in P, r\in R_{p}$
+$\text{4. Berechne die Quadratförmigkeit für jede Kompination: }$<br>
+$s(w,h)=\frac{min(w, h)}{max(w, h)}$<br>
+$\text{5. Finde die optimale Aufteilung: }$<br>
+$best\_division=\max{s(p,r)}\space |\space p\in P, r\in R_{p}$<br>
