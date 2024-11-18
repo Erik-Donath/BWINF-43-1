@@ -1,0 +1,18 @@
+16 26 5
+A < B < C < D < E < J < I
+B < C < E < D < I < H < K
+S < G < H < I < J 
+G < H < S < O
+M < N < O < K
+K < O < M
+P < Q < R < F < N < M
+S < F < P < N < K
+F < T < U
+V < W < T < Z
+Y < X < Z < T
+Z < W < T < V < T < U
+K < W < Z < Y
+A < B < D < E < W < Z < X < Y < U
+R < Q < K < L
+P < F < K < O < X < W
+B W I N F
