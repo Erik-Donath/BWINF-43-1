@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
+
 
 namespace Schwierigkeiten.src
 {
@@ -19,9 +21,12 @@ namespace Schwierigkeiten.src
         // Aufgaben, für die eine gute Anordnung gefunden werden soll
         private readonly string aufgaben;
         
+        Stopwatch stopwatch;
         
         public Algorithm(string[] lines)
         {
+            stopwatch = new();
+            stopwatch.Start();
             string infoLine = lines[0];
             info = infoLine
                 .Split(new[] { ' ' })
@@ -61,7 +66,9 @@ namespace Schwierigkeiten.src
                     }
                 }
             }
+            Console.WriteLine($"Laufzeit: {stopwatch.Elapsed}");
             Console.WriteLine(ergebnis + "\n");
+            stopwatch.Stop();
         }
 
         private Graph CreateGraph()
