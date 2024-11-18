@@ -1,0 +1,13 @@
+11 26 26
+H < S < C < A < G
+S < O < J < L < F
+O < M < X < D < U
+C < S < E < N < M
+E < M < F < X < B
+D < G < P < X < A
+R < L < X < U < T
+M < O < F < V < D
+S < O < U < T < P
+Z < Q < K < X < I
+B < W < I < Y
+A B C D E F G H I J K L M N O P Q R S T U V W X Y Z

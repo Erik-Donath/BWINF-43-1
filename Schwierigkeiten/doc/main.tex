@@ -1,0 +1,421 @@
+\documentclass[a4paper,10pt,ngerman]{scrartcl}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[a4paper,margin=2.5cm,footskip=0.5cm]{geometry}
+
+% Die nächsten vier Felder bitte anpassen:
+\newcommand{\Aufgabe}{Aufgabe 2: Schwierigkeiten} % Aufgabennummer und Aufgabennamen angeben
+\newcommand{\TeamId}{00852}                       % Team-ID aus dem PMS angeben
+\newcommand{\TeamName}{Team\_Magdeburg\_an\_die\_Macht}                 % Team-Namen angeben
+\newcommand{\Namen}{David Noskov}           % Namen der Bearbeiter/-innen dieser Aufgabe angeben
+ 
+% Kopf- und Fußzeilen
+\usepackage{scrlayer-scrpage, lastpage}
+\setkomafont{pageheadfoot}{\large\textrm}
+\lohead{\Aufgabe}
+\rohead{Team-ID: \TeamId}
+\cfoot*{\thepage{}/\pageref{LastPage}}
+
+% Position des Titels
+\usepackage{titling}
+\setlength{\droptitle}{-1.0cm}
+
+% Für mathematische Befehle und Symbole
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Für Bilder
+\usepackage{graphicx}
+
+% Für Algorithmen
+\usepackage{algpseudocode}
+
+% Für Quelltext
+\usepackage{listings}
+\usepackage{color}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+  keywordstyle=\color{blue},commentstyle=\color{mygreen},
+  stringstyle=\color{mymauve},rulecolor=\color{black},
+  basicstyle=\footnotesize\ttfamily,numberstyle=\tiny\color{mygray},
+  captionpos=b, % sets the caption-position to bottom
+  keepspaces=true, % keeps spaces in text
+  numbers=left, numbersep=5pt, showspaces=false,showstringspaces=true,
+  showtabs=false, stepnumber=2, tabsize=2, title=\lstname
+}
+\lstdefinelanguage{JavaScript}{ % JavaScript ist als einzige Sprache noch nicht vordefiniert
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  sensitive=true
+}
+
+% Diese beiden Pakete müssen zuletzt geladen werden
+%\usepackage{hyperref} % Anklickbare Links im Dokument
+\usepackage{cleveref}
+
+% Daten für die Titelseite
+\title{\textbf{\Huge\Aufgabe}}
+\author{\LARGE Team-ID: \LARGE \TeamId \\\\
+	    \LARGE Team-Name: \LARGE \TeamName \\\\
+	    \LARGE Bearbeiter/-innen dieser Aufgabe: \\ 
+	    \LARGE \Namen\\\\}
+\date{\LARGE\today}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+
+\vspace{0.5cm}
+
+\newpage
+
+\section{Lösungsidee}
+\subsection{Hauptaufgabe}
+Um die Aufgaben der Klausuren nach der Schwierigkeit zu ordnen, basiert meine Lösung darauf, das Problem in einen gerichteten Graphen zu modellieren, in Form einer Adjazenzliste. Jede Aufgabe ist ein Knoten und jede gerichtete Kante zeigt auf eine leichtere Aufgabe.
+\\
+Anschließend wird die Liste topologisch sortiert, um eine Reihenfolge zu erhalten, die den gegebenen Schwierigkeitsgraden der Aufgaben entspricht. Eine topologische Sortierung liefert eine gültige lineare Ordnung der Knoten in einem gerichteten azyklischen Graphen (DAG), die den Schwierigkeitsrelationen entspricht.
+
+\subsection{Konflikte}
+Bei einem Konflikt herrscht ein Zyklus in dem Graphen.\\
+A → B\\
+B → A\\
+Um diese Konflikte aufzulösen, wird mithilfe eines Deep-First-Search ein Zyklus gesucht. Wird ein Zyklus gefunden, wird ein Knoten entfernt, um den Zyklus zu entfernen und sicherzustellen, dass der Graph azyklisch ist.
+
+\section{Umsetzung}
+Die Umsetzung und Implementierung des Algorithmus orientiert sich eng an der entwickelten Lösungsstrategie. Der Algorithmus verwendet eine Kombination aus Graphenrepräsentation, topologischer Sortierung und Konfliktbehandlung, um eine gültige Anordnung der Aufgaben gemäß den gegebenen Schwierigkeitsrelationen zu erstellen.
+
+Für die Modellierung des Problems wurde der Graph als Adjazenzliste realisiert. Hierzu wird ein Dictionary verwendet, das jeden Knoten (Aufgabe) mit einer leichteren Aufgaben verbindet.
+
+Bevor der Graph topologisch sortiert werden kann, muss der Graph azyklisch sein, also kein Zyklus haben. Dazu wird mithilfe einer Tiefensuche nach einem Zyklus gesucht. Wird ein Zyklus gefunden, wird eine zufällige Kante entfernt unter Berücksichtigung, dass der Graph zusammenhängend bleibt bzw, nicht in zwei geteilt wird.
+
+Für die endgültige Anordnung der Aufgaben wird eine topologische Sortierung durchgeführt. Dies wird mithilfe eines weiteren Deep-First-Search ausgeführt.
+
+\subsection{Laufzeit}
+Um die Laufzeit des Algorithmus zu analysieren, betrachten wir die einzelnen Schritte der Implementie
+rung.
+Für jede Aufgabe und jede Relation wird der Graph aufgebaut. Da $m$ die Anzahl der Knoten und $e$ die Anzahl der Kanten ist, beträgt die Laufzeit für diesen Schritt $O(m+e)$ benötigt.
+Das Finden und Entfernen von Zyklen wird mithilfe einer modifizierten Tiefensuche durchgeführt, die $O(m+e)$
+Die Topologische Sortierung mit Deep-First-Search erfolgt in $O(m+e)$.\\
+Zusammen ergibt sich die Gesamtlaufzeit des Algorithmus:
+$$
+O(m+e)+O(m+e)+O(m+e)=O(m+e)
+$$
+
+\newpage
+\section{Pseudocode}
+\begin{verbatim}
+Funktion find_task_order(lines):
+    // Einlesen der Eingabedaten
+    info = parse(lines[0])
+    klausuren = lines[1:info[0]]
+    aufgaben = lines[lines.Length - 1]
+
+    // Erstelle den Graphen
+    graph = Graph()
+    für i in 0 bis info[1] - 1:
+        graph.add_node(alphabet[i])
+    für klausur in klausuren:
+        für j in 0 bis klausur.length - 2:
+            graph.add_edge(klausur[j], klausur[j+1])
+
+    // Konfliktbehandlung
+    graph.remove_cycle()
+
+    // Topologische Sortierung
+    liste = graph.topological_sort()
+
+    // Filtere die relevanten Aufgaben und gebe sie aus
+    ergebnis = ""
+    für aufgabe in liste:
+        wenn aufgabe in aufgaben:
+            ergebnis += aufgabe
+    Rückgabe ergebnis
+
+\end{verbatim}
+
+\section{Beispiele}
+Das Programm wurde auf einem Windows System mit einem AMD Ryzen 7 5800HS Prozessor ausgeführt.
+
+\textbf{schwierigkeiten0.txt}\\
+Laufzeit: 00:00:00.0066154\\
+BEDFC\\
+
+\textbf{schwierigkeiten1.txt}\\
+Laufzeit: 00:00:00.0000727\\
+AGCDF\\
+
+\textbf{schwierigkeiten2.txt}\\
+Laufzeit: 00:00:00.0000197\\
+ABDEFG\\
+
+\textbf{schwierigkeiten3.txt}\\
+Laufzeit: 00:00:00.0000180\\
+MNHILJKAEFGBDC\\
+
+\textbf{schwierigkeiten4.txt}\\
+Laufzeit: 00:00:00.0000375\\
+BIFWN\\
+
+\textbf{schwierigkeiten5.txt}\\
+Laufzeit: 00:00:00.0000323\\
+ZRQKHCSENOMJLFVAGPXBWIYDUT\\
+
+\section{Quellcode}
+Der Code wurde in C# geschrieben. Die Logik des Programms, ist in zwei Dateien unterteilt; Algorithm.cs und Graph.cs
+
+\subsection{Algorithm.cs}
+\begin{verbatim}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Diagnostics;
+
+
+namespace Schwierigkeiten.src
+{
+    internal class Algorithm
+    {
+        /*
+         * 0 = Anzahl der Klausuren
+         * 1 = Gesamtanzahl an Aufgaben
+         * 2 = Anzahl an Aufgaben für welche eine gute Anordnung gefunden werden soll
+         */
+        private readonly int[] info;
+        // Liste aller Klausuren
+        private readonly List<string> klausuren;
+        // Aufgaben, für die eine gute Anordnung gefunden werden soll
+        private readonly string aufgaben;
+        
+        Stopwatch stopwatch;
+        
+        public Algorithm(string[] lines)
+        {
+            stopwatch = new();
+            stopwatch.Start();
+            string infoLine = lines[0];
+            info = infoLine
+                .Split(new[] { ' ' })
+                .Select(int.Parse)
+                .ToArray();
+            klausuren = [];
+            for (int i = 1; i <= info[0]; i++) 
+            {
+                klausuren.Add(removeClutter(lines[i]));
+            }
+            aufgaben = removeClutter(lines[lines.Length - 1]);
+        }
+
+        private string removeClutter(string line)
+        {
+            string newLine = line;
+            newLine = newLine.Replace(" ", "");
+            newLine = newLine.Replace("<", "");
+            return newLine;
+        }
+
+        public void Solve()
+        {
+            Graph graph = CreateGraph();
+            graph.RemoveCycle();
+            List<char> liste = graph.TopologicalSort();
+            //liste.ForEach(x => Console.Write($"{x} <"));
+            string ergebnis = "";
+            for (int i = 0; i < liste.Count; i++) 
+            {
+                for (int j = 0; j < info[2]; j++)
+                {
+                    if (aufgaben[j] == liste[i])
+                    {
+                        ergebnis += liste[i];
+                        break;
+                    }
+                }
+            }
+            Console.WriteLine($"Laufzeit: {stopwatch.Elapsed}");
+            Console.WriteLine(ergebnis + "\n");
+            stopwatch.Stop();
+        }
+
+        private Graph CreateGraph()
+        {
+            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            Graph graph = new();
+            for (int i = 0; i < info[1]; i++)
+            {
+                graph.AddNode(alphabet[i]);
+                //Console.WriteLine(alphabet[i]+ " :node created");
+            }
+            foreach (string klausur in klausuren)
+            {
+                for (int i = 0; i < klausur.Length - 1; i++)
+                {
+                    graph.AddEdge(klausur[i], klausur[i+1]);
+                }
+            }
+            return graph;
+        }
+    }
+}
+
+\end{verbatim}
+
+\subsection{Graph.cs}
+\begin{verbatim}
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Schwierigkeiten.src
+{
+    internal class Graph
+    {
+        private Dictionary<char, List<char>> adjList;
+
+        public Graph()
+        {
+            adjList = [];
+        }
+
+        public void AddNode(char node)
+        {
+            if (!adjList.ContainsKey(node))
+            {
+                adjList[node] = [];
+            }
+        }
+
+        public void AddEdge(char from, char to)
+        {
+            if (!adjList[from].Contains(to))
+                adjList[from].Add(to);
+        }
+
+        public void RemoveEdge(char from, char to)
+        {
+            adjList[from].Remove(to);
+        }
+
+        public List<char> TopologicalSort()
+        {
+            HashSet<char> visited = [];
+            Stack<char> resultStack = [];
+
+            foreach (var node in adjList.Keys)
+            {
+                if (!visited.Contains(node))
+                {
+                    DFS(node, visited, resultStack);
+                }
+            }
+            return resultStack.ToList(); // Rückgabe der topologisch sortierten Liste
+        }
+
+        public void RemoveCycle()
+        {
+            // Suche nach einem Zyklus und entferne eine Kante, die keine Brücke ist
+            foreach (var node in adjList.Keys)
+            {
+                var visited = new HashSet<char>();
+                var stack = new Stack<char>();
+                var resultStack = new Stack<char>();
+
+                if (FindCycle(node, '\0', visited, stack))
+                {
+                    var cycleNodes = stack.ToList();
+
+                    for (int i = 0; i < cycleNodes.Count - 1; i++)
+                    {
+                        char u = cycleNodes[i];
+                        char v = cycleNodes[i + 1];
+
+                        // Überprüfen, ob (u, v) eine Brücke ist
+                        if (!IsBridge(u, v, [], resultStack))
+                        {
+                            adjList[u].Remove(v);
+                            adjList[v].Remove(u);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Hilfsfunktion zur Zyklenerkennung mit DFS
+        private bool FindCycle(char current, char parent, HashSet<char> visited, Stack<char> stack)
+        {
+            visited.Add(current);
+            stack.Push(current);
+
+            foreach (var neighbor in adjList[current])
+            {
+                if (neighbor == parent)
+                    continue;
+
+                if (visited.Contains(neighbor))
+                {
+                    stack.Push(neighbor);
+                    return true;
+                }
+
+                if (FindCycle(neighbor, current, visited, stack))
+                {
+                    return true;
+                }
+            }
+
+            stack.Pop();
+            return false;
+        }
+
+        // Funktion zur Überprüfung, ob eine Kante eine Brücke ist
+        private bool IsBridge(char u, char v, HashSet<char> visited, Stack<char> resultStack)
+        {
+            // Entferne die Kante temporär
+            adjList[u].Remove(v);
+            adjList[v].Remove(u);
+
+            // Überprüfen, ob u und v noch im selben Teil des Graphen sind
+            DFS(u, visited, resultStack);
+
+            // Füge die Kante wieder hinzu
+            adjList[u].Add(v);
+            adjList[v].Add(u);
+
+            // Überprüfen, ob beide Knoten noch in derselben Komponente sind
+            return !visited.Contains(v);
+        }
+
+        // DFS-Funktion zur Überprüfung der Erreichbarkeit oder für topologischen Sort
+        private void DFS(char node, HashSet<char> visited, Stack<char> resultStack)
+        {
+            visited.Add(node);
+
+            foreach (var neighbor in adjList[node])
+            {
+                if (!visited.Contains(neighbor))
+                {
+                    DFS(neighbor, visited, resultStack);
+                }
+            }
+
+            // Fügt den Knoten dem resultStack hinzu, um später den topologischen Sort zu haben
+            resultStack.Push(node);
+        }
+
+    }
+}
+\end{verbatim}
+\end{document}

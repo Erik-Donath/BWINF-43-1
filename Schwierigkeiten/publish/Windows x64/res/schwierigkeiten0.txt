@@ -1,0 +1,6 @@
+4 7 5
+B < A < D < F
+D < F < G
+A < E < D < C
+G < F < C
+B C D E F

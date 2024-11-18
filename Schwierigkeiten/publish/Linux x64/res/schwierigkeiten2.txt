@@ -1,0 +1,8 @@
+6 8 6
+A < B < C
+E < C < D
+E < C < A
+E < F < G < H
+H < F
+D < E
+A B D E F G
