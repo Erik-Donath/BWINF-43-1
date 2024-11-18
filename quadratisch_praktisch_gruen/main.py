@@ -100,6 +100,5 @@ def main():
     # Zeichne die Aufteilung
     plotter.plot_division(best_division)
 
-
 if __name__ == "__main__":
     main()

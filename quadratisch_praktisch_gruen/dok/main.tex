@@ -1,0 +1,293 @@
+\documentclass[a4paper,10pt,ngerman]{scrartcl}
+\usepackage{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[a4paper,margin=2.5cm,footskip=0.5cm]{geometry}
+
+% Die nächsten vier Felder bitte anpassen:
+\newcommand{\Aufgabe}{Quadratisch, praktisch, grün} % Aufgabennummer und Aufgabennamen angeben
+\newcommand{\TeamId}{00852}                       % Team-ID aus dem PMS angeben
+\newcommand{\TeamName}{Team\_Magdeburg\_an\_die\_Macht}                 % Team-Namen angeben
+\newcommand{\Namen}{Erik Donath}           % Namen der Bearbeiter/-innen dieser Aufgabe angeben
+ 
+% Kopf- und Fußzeilen
+\usepackage{scrlayer-scrpage, lastpage}
+\setkomafont{pageheadfoot}{\large\textrm}
+\lohead{\Aufgabe}
+\rohead{Team-ID: \TeamId}
+\cfoot*{\thepage{}/\pageref{LastPage}}
+
+% Position des Titels
+\usepackage{titling}
+\setlength{\droptitle}{-1.0cm}
+
+% Für mathematische Befehle und Symbole
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Für Bilder
+\usepackage{graphicx}
+
+% Für Algorithmen
+\usepackage{algpseudocode}
+
+% Für Quelltext
+\usepackage{listings}
+\usepackage{color}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+  keywordstyle=\color{blue},commentstyle=\color{mygreen},
+  stringstyle=\color{mymauve},rulecolor=\color{black},
+  basicstyle=\footnotesize\ttfamily,numberstyle=\tiny\color{mygray},
+  captionpos=b, % sets the caption-position to bottom
+  keepspaces=true, % keeps spaces in text
+  numbers=left, numbersep=5pt, showspaces=false,showstringspaces=true,
+  showtabs=false, stepnumber=2, tabsize=2, title=\lstname
+}
+\lstdefinelanguage{JavaScript}{ % JavaScript ist als einzige Sprache noch nicht vordefiniert
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  sensitive=true
+}
+
+% Diese beiden Pakete müssen zuletzt geladen werden
+%\usepackage{hyperref} % Anklickbare Links im Dokument
+\usepackage{cleveref}
+
+% Daten für die Titelseite
+\title{\textbf{\Huge\Aufgabe}}
+\author{\LARGE Team-ID: \LARGE \TeamId \\\\
+	    \LARGE Team-Name: \LARGE \TeamName \\\\
+	    \LARGE Bearbeiter/-innen dieser Aufgabe: \\ 
+	    \LARGE \Namen\\\\}
+\date{\LARGE\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\vspace{0.5cm}
+
+\section{Lösungsidee}
+
+Das Ziel ist eine Gartenfläche in möglichst quadratische Kleingärten zu unterteilen.
+
+\subsection{Definition von Quadratisch}
+Zu erst muss eine Definition des Begriffes Quadratisch beschrieben werden. Quadratisch ist das Verhältnis von der kleinen Seite zur großen Seite. Sollte dieses 1 sein, so ist das gegebene Rechteck zu 100\% quadratisch. Der Mathematische Ausdruck lautet wie folgt:
+\[
+s(b,h) = \frac{\min(b,h)}{\max(b,h)}
+\]
+$b$ und $h$ beschreiben die Breite und Höhe des Rechtecks und sind immer positiv. Der Funktionswert von $s$ kann zwischen 0 und 1 liegen.
+
+\subsection{Suchstrategie}
+Die Suche nach der optimalen Aufteilung ist die Suche nach dem maximalen Funktionswert von $s$. Hierfür suchen wir in einem Intervall von $I=[n; n \cdot 1.1]$. Dabei bezeichnet $n$ die Anzahl an Interessenten. Es werden auch die Begriffe $n_{\min}$ und $n_{\max}$ für die Intervallgrenzen verwendet. Für jede mögliche Anzahl werden alle gültigen Kombinationen von Reihen und Spalten untersucht.
+
+Der Ablauf sieht wie folgt aus:
+\begin{enumerate}
+  \item Gehe durch das Intervall mit Schrittweite 1. Dies entspricht der aktuellen Anzahl der Kleingärten.
+  \item Gehe durch alle möglichen Anzahlen an Reihen von 1 bis zur aktuellen Kleingartenanzahl + 1, die Teiler dieser Anzahl sind.
+  \item Berechne für jede Reihe die Anzahl an möglichen Spalten.
+  \item Bestimme die Breite und Höhe eines einzelnen Kleingartens.
+  \item Merke dir die Höhe und Breite.
+  \item Nachdem das Intervall untersucht wurde, sortiere die gemerkten Kleingärten nach ihrer Quadratförmigkeit.
+  \item Das oberste Resultat der sortierten Liste ist das Ergebnis.
+\end{enumerate}
+
+Der mathematische Ausdruck lautet:
+$$
+\max_{n,r} \left\{ s\left( \frac{W}{c}, \frac{H}{r} \right) \mid n_{\min} \leq n \leq n_{\max}, c = \frac{n}{r} \right\}
+$$
+Wobei:
+- $n$ die Kleingartenanzahl ist
+- $r$ die Anzahl der Reihen ist
+- $c$ die Anzahl der Spalten ist
+- $W$ die Gesamtbreite ist
+- $H$ die Gesamthöhe ist
+- $n_{\min}$ und $n_{\max}$ die Intervallgrenzen sind
+
+Die Formel beschreibt die Suche nach der Kombination von Kleingartenanzahl und Reihenanzahl, die die höchste Quadratförmigkeit ergibt, unter Berücksichtigung der Randbedingungen.
+
+\section{Umsetzung}
+
+Die Lösungsidee zur optimalen Aufteilung einer Gartenfläche wurde in der Python-Klasse `GardenPlotter` wie folgt umgesetzt:
+
+\subsection{Berechnung der Quadratförmigkeit}
+Die Methode \texttt{calculate\_squareness()} wurde implementiert, um die Ähnlichkeit eines Rechtecks (Kleingartens) zu einem perfekten Quadrat zu quantifizieren. Sie verwendet das Verhältnis der kürzeren zur längeren Seite, was einen Wert zwischen 0 und 1 ergibt.
+
+\subsection{Kernalgorithmus zur Findung der besten Aufteilung}
+Der Hauptalgorithmus ist in der Methode \texttt{find\_best\_division()} implementiert:
+
+\begin{enumerate}
+  \item Es wird über alle möglichen Kleingartenanzahlen von \texttt{min\_plots} bis \texttt{max\_plots} iteriert.
+  \item Für jede Kleingartenanzahl werden alle möglichen Reihen-Spalten-Kombinationen durchlaufen.
+  \item Die Quadratförmigkeit jedes resultierenden Kleingartens wird berechnet.
+  \item Die Kombination mit der höchsten Quadratförmigkeit wird als beste Lösung gespeichert.
+\end{enumerate}
+
+\subsection{Effizienzoptimierungen}
+\begin{itemize}
+  \item Die Schleife prüft nur Teiler-Kombinationen, um unnötige Berechnungen zu vermeiden.
+  \item Die Berechnung stoppt, sobald eine perfekte quadratische Aufteilung gefunden wird (Quadratförmigkeit = 1).
+\end{itemize}
+
+\subsection{Datenstruktur für das Ergebnis}
+Das Ergebnis wird als Dictionary zurückgegeben, das alle relevanten Informationen zur besten Aufteilung enthält, einschließlich der Anzahl der Reihen und Spalten, der Kleingartenmaße und des Quadratförmigkeitswerts. Diese Implementierung ermöglicht eine effiziente und flexible Berechnung der optimalen Gartenaufteilung, die sich an verschiedene Gartengrößen und Teilnehmerzahlen anpassen lässt.
+
+\section{Beispiele}
+
+\subsection{Beispiel 1: Gartenaufteilung aus garten0.txt}
+\begin{verbatim}
+Lade Daten von: res/garten0.txt
+Interessenten: 23
+Höhe: 42
+Breite: 66
+
+Beste Aufteilung gefunden:
+Anzahl der Kleingärten: 24 (4 Reihen x 6 Spalten)
+Größe jedes Kleingartens: 11.00m x 10.50m
+Quadratischkeit: 95.5% (100% wäre ein perfektes Quadrat)
+\end{verbatim}
+% Bild einfügen (optional, falls vorhanden)
+%\includegraphics[width=\linewidth]{plot_2024-11-18_08-37-25_0.png}
+
+\subsection{Beispiel 2: Gartenaufteilung aus garten1.txt}
+\begin{verbatim}
+Lade Daten von: res/garten1.txt
+Interessenten: 19
+Höhe: 15
+Breite: 12
+
+Beste Aufteilung gefunden:
+Anzahl der Kleingärten: 20 (5 Reihen x 4 Spalten)
+Größe jedes Kleingartens: 3.00m x 3.00m
+Quadratischkeit: 100.0% (100% wäre ein perfektes Quadrat)
+\end{verbatim}
+% Bild einfügen (optional, falls vorhanden)
+%\includegraphics[width=\linewidth]{plot_2024-11-18_08-37-25_1.png}
+
+\subsection{Beispiel 3: Gartenaufteilung aus garten2.txt}
+\begin{verbatim}
+Lade Daten von: res/garten2.txt
+Interessenten: 36
+Höhe: 55
+Breite: 77
+
+Beste Aufteilung gefunden:
+Anzahl der Kleingärten: 36 (6 Reihen x 6 Spalten)
+Größe jedes Kleingartens: 12.83m x 9.17m
+Quadratischkeit: 71.4% (100% wäre ein perfektes Quadrat)
+\end{verbatim}
+% Bild einfügen (optional, falls vorhanden)
+%\includegraphics[width=\linewidth]{plot_2024-11-18_08-37-25_2.png}
+
+\subsection{Beispiel 4: Gartenaufteilung aus garten3.txt}
+\begin{verbatim}
+Lade Daten von: res/garten3.txt
+Interessenten: 101
+Höhe: 15
+Breite: 15
+
+Beste Aufteilung gefunden:
+Anzahl der Kleingärten: 110 (10 Reihen x 11 Spalten)
+Größe jedes Kleingartens: 1.36m x 1.50m
+Quadratischkeit: 90.9% (100% wäre ein perfektes Quadrat)
+\end{verbatim}
+% Bild einfügen (optional, falls vorhanden)
+%\includegraphics[width=\linewidth]{plot_2024-11-18_08-37-25_3.png}
+
+\subsection{Beispiel 5: Gartenaufteilung aus garten4.txt}
+\begin{verbatim}
+Lade Daten von: res/garten4.txt
+Interessenten: 1200
+Höhe: 37
+Breite: 2000
+
+Beste Aufteilung gefunden:
+Anzahl der Kleingärten: 1320 (5 Reihen x 264 Spalten)
+Größe jedes Kleingartens: 7.58m x 7.40m
+Quadratischkeit: 97.7% (100% wäre ein perfektes Quadrat)
+\end{verbatim}
+% Bild einfügen (optional, falls vorhanden)
+%\includegraphics[width=\linewidth]{plot_2024-11-18_08-37-25_4.png}
+
+
+\subsection{Beispiel 6: Gartenaufteilung aus garten5.txt}
+\begin{verbatim}
+Lade Daten von: res/garten5.txt
+Interessenten: 35000
+Höhe: 365
+Breite: 937
+
+Beste Aufteilung gefunden:
+Anzahl der Kleingärten: 36960 (120 Reihen x 308 Spalten)
+Größe jedes Kleingartens: 3.04m x 3.04m
+Quadratischkeit: 100.0% (100% wäre ein perfektes Quadrat)
+\end{verbatim}
+% Bild einfügen (optional, falls vorhanden)
+%\includegraphics[width=\linewidth]{plot_2024-11-18_08-37-25_5.png}
+
+
+\section{Quellcode}
+
+\begin{lstlisting}[language=Python]
+class GardenPlotter:
+    def _init_(self, width, height, interested):
+        self.total_width = width
+        self.total_height = height
+        self.min_plots = interested
+        self.max_plots = int(interested * 1.1)
+
+    def calculate_squareness(self, width, height):
+        return min(width, height) / max(width, height)
+
+    def find_best_division(self):
+        best_squareness = 0
+        best_division = None
+
+        for plots in range(self.min_plots, self.max_plots + 1):
+            for rows in range(1, plots + 1):
+                if plots % rows == 0:
+                    cols = plots // rows
+
+                    plot_width = self.total_width / cols
+                    plot_height = self.total_height / rows
+
+                    squareness = self.calculate_squareness(plot_width, plot_height)
+
+                    if squareness > best_squareness:
+                        best_squareness = squareness
+                        best_division = {
+                            'rows': rows,
+                            'cols': cols,
+                            'total_plots': plots,
+                            'plot_width': plot_width,
+                            'plot_height': plot_height,
+                            'squareness': squareness
+                        }
+
+        return best_division
+\end{lstlisting}
+
+\subsection{Für \texttt{calculate\_squareness(w,h)} gilt:}
+$\text{Zeitkomplexität: } O(1)$\\
+$\text{Mathematischer Ausdruck: }s(w,h)=\frac{min(w, h)}{max(w, h)}$\\
+
+\subsection{Für \texttt{find\_best\_division()} gilt:}
+$\text{Zeitkomplexität: } O(n^{2})$\\
+$\text{Mathematischer Ausdruck: }$\\
+$\text{1. Menge der möglichen Plotanzahlen:}$\\
+$P=\{p \in \mathbb{N} \space| \space min\_plots \leq p\leq max\_plots\}$
+$\text{2. Für jedes } p \in P \text{, ist die Menge der möglichen Reihenzahlen:}$\\
+$R_{p}=\{r \in \mathbb{N} \space| \space 1 \leq p \text{ und }p \space mod \space r = 0 \}$\\$\text{3. Berechne für jede Kombination } (p,r) \text{ die Spantenzahl } c=\frac{p}{r} \text{ und die Plotdimensionen: }$\\$w=\frac{total\_width}{c}, h=\frac{total\_height}{r}$\\
+$\text{4. Berechne die Quadratförmigkeit für jede Kompination: }$\\
+$s(w,h)=\frac{min(w, h)}{max(w, h)}$\\
+$\text{5. Finde die optimale Aufteilung: }$\\
+$best\_division=\max_{p,r}{s(p,r)}\space |\space p\in P, r\in R_{p}$
+
+\end{document}
